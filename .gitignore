@@ -2,6 +2,7 @@ tests/*
 !tests/test_*
 !tests/conftest.py
 .vscode
+*_token.txt
 
 
 # Byte-compiled / optimized / DLL files
