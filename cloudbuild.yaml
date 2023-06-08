@@ -1,0 +1,37 @@
+steps:
+- name: python
+  id: upgrade_pip
+  entrypoint: python
+  args: ["-m", "pip", "install", "--upgrade", "pip"]
+- name: python
+  id: dependencies
+  waitFor:
+    - upgrade_pip
+  entrypoint: python
+  args: ["-m", "pip", "install", "build", "pytest", "--user"]
+- name: python
+  id: install_local
+  waitFor:
+    - dependencies
+  entrypoint: python
+  args: ["-m", "pip", "install", ".", "--user"]
+- name: python
+  id: pytest
+  waitFor:
+    - install_local
+  entrypoint: python
+  args: ["-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml"]
+- name: python
+  id: build
+  waitFor:
+    - pytest
+  entrypoint: python
+  args: ["-m", "build"]
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+artifacts:
+  python_packages:
+  - repository: "https://europe-west8-python.pkg.dev/casper-365310/casper-python-packages"
+    paths: ["dist/*"]
