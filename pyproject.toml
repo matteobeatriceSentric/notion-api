@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "notionapi"
-version = "0.0.1"
+dynamic = ["version"]
 authors = [
   { name="Matteo Beatrice", email="matteo.beatrice@sentric.it" },
 ]
@@ -17,7 +17,13 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
+  "PyGithub>=1.58.2, <2",
+  "notion-client>=2.0.0, <3",
+  "toml>=0.10.2, <1"
 ]
+
+[tool.setuptools.dynamic]
+version = {attr = "notionapi.VERSION"}
 
 [project.urls]
 "Homepage" = "https://github.com/sentricsrl/notion-api"
